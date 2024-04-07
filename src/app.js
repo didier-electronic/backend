@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import createError from "http-errors";
+import imageupload from "express-fileupload";
 import cors from "cors";
 import helmet from "helmet";
 import routes from "./routes";
@@ -11,11 +12,18 @@ import {
 import "./jobs/";
 
 const app = express();
+const corsOptions = {
+  origin: "http://localhost:5173", // Replace with your front-end URL
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "access-token"],
+};
 
-app.use(cors());
+app.use(imageupload({ useTempFiles: true }));
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use("/uploads/", express.static("uploads"));
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 

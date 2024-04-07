@@ -4,7 +4,7 @@ import * as errorMessages from "../../constants/errorMessages";
 
 import db from "../../database/models";
 
-const { cloudinary } = require("../../helpers/cloudinary");
+const cloudinary = require("../../helpers/cloudinary");
 const { Product } = db;
 
 export default class ProductController {
@@ -15,7 +15,20 @@ export default class ProductController {
    * @return {object} user book information
    */
   static async create(req, res) {
-    const result = await cloudinary.uploader.upload(req.file.path);
+    const result = await cloudinary.uploader.upload(
+      req.files?.productImage?.tempFilePath,
+      (err, result) => {
+        if (err) {
+          console.log("err", err);
+          return res.status(500).json({
+            success: false,
+            message: "Error",
+          });
+        }
+      }
+    );
+
+    // console.log("result ==>>", result);
 
     const { title, description, price } = req.body;
 

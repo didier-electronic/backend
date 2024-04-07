@@ -1,5 +1,4 @@
 import { Router } from "express";
-import multer from "multer";
 import ProductController from "../../controllers/products";
 // import joiValidator from "../../middlewares/joiValidator";
 // import * as schema from "../../helpers/validation/joi-schemas";
@@ -14,7 +13,6 @@ router.post(
   "/",
   verifyToken,
   verifyAdmin,
-  upload.single("productImage"),
   errorHandlerAsync(ProductController.create)
 );
 

@@ -6,9 +6,6 @@ const errorHandlerAsync = (controller) => async (req, res, next) => {
     return result;
   } catch (err) {
     const error = errorHandler(err);
-    console.log("====================================");
-    console.log(error);
-    console.log("====================================");
     return res.status(error.code).json({
       status: error.code,
       message: error.message,
