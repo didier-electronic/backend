@@ -1,11 +1,16 @@
+import path from "path";
+import multer from "multer";
 import * as status from "../../constants/httpStatusCodes";
 import * as successMessages from "../../constants/successMessages";
 import * as errorMessages from "../../constants/errorMessages";
 
 import db from "../../database/models";
 
+const assetsFolder = path.join(__dirname, "assets");
 const cloudinary = require("../../helpers/cloudinary");
 const { Product } = db;
+
+const upload = multer({ dest: "public/uploads/" }).single("productImage");
 
 export default class ProductController {
   /**
@@ -16,7 +21,7 @@ export default class ProductController {
    */
   static async create(req, res) {
     const result = await cloudinary.uploader.upload(
-      req.files?.productImage?.tempFilePath,
+      req?.file?.path,
       (err, result) => {
         if (err) {
           console.log("err", err);
@@ -63,7 +68,7 @@ export default class ProductController {
     return fetchProduct?.get()
       ? res.status(status.HTTP_OK).json({
           status: status.HTTP_OK,
-          book: { ...fetchProduct.get() },
+          product: { ...fetchProduct.get() },
         })
       : res
           .status(status.HTTP_NOT_FOUND)
@@ -81,11 +86,11 @@ export default class ProductController {
     return fetchProducts.length
       ? res.status(status.HTTP_OK).json({
           status: status.HTTP_OK,
-          books: fetchProducts,
+          products: fetchProducts,
         })
       : res
           .status(status.HTTP_NO_CONTENT)
-          .json({ errors: { books: errorMessages.BOOKS_NOT_FOUND } });
+          .json({ errors: { products: errorMessages.PRODUCTS_NOT_FOUND } });
   }
 
   /**
@@ -131,7 +136,7 @@ export default class ProductController {
     return res.status(status.HTTP_OK).json({
       status: status.HTTP_OK,
       message: successMessages.UPDATED,
-      user: { ...updateProduct[1].dataValues },
+      product: { ...updateProduct[1].dataValues },
     });
   }
 

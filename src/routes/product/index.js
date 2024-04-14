@@ -13,6 +13,7 @@ router.post(
   "/",
   verifyToken,
   verifyAdmin,
+  upload.single("productImage"),
   errorHandlerAsync(ProductController.create)
 );
 

@@ -1,8 +1,8 @@
-import db from '../database/models/';
-import { decode } from '../utils/tokens';
-import { INVALID_TOKEN, TOKEN_REQUIRED } from '../constants/errorMessages';
-import { HTTP_UNAUTHORIZED } from '../constants/httpStatusCodes';
-import 'dotenv/config';
+import db from "../database/models/";
+import { decode } from "../utils/tokens";
+import { INVALID_TOKEN, TOKEN_REQUIRED } from "../constants/errorMessages";
+import { HTTP_UNAUTHORIZED } from "../constants/httpStatusCodes";
+import "dotenv/config";
 
 const { User } = db;
 
@@ -13,14 +13,14 @@ const { User } = db;
  */
 
 const auth = async (req, res, next) => {
-  let token = req.header('access-token') || req.params.token || null;
+  let token = req.header("Authorization") || req.header("access-token");
   if (!token) {
     return res.status(HTTP_UNAUTHORIZED).json({
       status: HTTP_UNAUTHORIZED,
-      message: TOKEN_REQUIRED
+      message: TOKEN_REQUIRED,
     });
   }
-  if (token.startsWith('Bearer ')) {
+  if (token.startsWith("Bearer ")) {
     token = token.slice(7, token.length);
   }
   try {
@@ -31,7 +31,7 @@ const auth = async (req, res, next) => {
 
     const { id } = decoded.decoded;
 
-    if (key === 'email' || key === 'iat' || key === 'exp') {
+    if (key === "email" || key === "iat" || key === "exp") {
       req.user = decoded;
       return next();
     }
@@ -45,12 +45,12 @@ const auth = async (req, res, next) => {
 
     return res.status(HTTP_UNAUTHORIZED).json({
       status: HTTP_UNAUTHORIZED,
-      message: INVALID_TOKEN
+      message: INVALID_TOKEN,
     });
   } catch (err) {
     return res.status(HTTP_UNAUTHORIZED).json({
       status: HTTP_UNAUTHORIZED,
-      message: INVALID_TOKEN
+      message: INVALID_TOKEN,
     });
   }
 };
