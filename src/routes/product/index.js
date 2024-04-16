@@ -17,8 +17,8 @@ router.post(
   errorHandlerAsync(ProductController.create)
 );
 
-router.get("/:id", verifyToken, errorHandlerAsync(ProductController.getOne));
-router.get("/", verifyToken, errorHandlerAsync(ProductController.getAll));
+router.get("/:id", errorHandlerAsync(ProductController.getOne));
+router.get("/", errorHandlerAsync(ProductController.getAll));
 router.put(
   "/:id",
   verifyToken,

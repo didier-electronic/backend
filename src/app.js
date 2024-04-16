@@ -14,7 +14,7 @@ import "./jobs/";
 
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your front-end URL
+  origin: "http://localhost:3001", // Replace with your front-end URL
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
