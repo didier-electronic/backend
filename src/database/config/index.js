@@ -23,7 +23,6 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    use_env_variable: "DATABASE_URL",
     username: process.env.MADIBA_USER,
     password: process.env.MADIBA_PASSWORD,
     database: process.env.MADIBA_DATABASE,
