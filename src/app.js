@@ -14,7 +14,10 @@ import "./jobs/";
 
 const app = express();
 const corsOptions = {
-  origin: ["https://didierelectronics.com"], // Replace with your front-end URL
+  origin: [
+    "https://didierelectronics.com",
+    "https://admin.didierelectronics.com",
+  ], // Replace with your front-end URL
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
