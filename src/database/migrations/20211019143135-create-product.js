@@ -13,17 +13,17 @@ module.exports = {
         type: new DataTypes.STRING(),
       },
       description: {
-        type: new DataTypes.STRING(),
+        type: new DataTypes.TEXT(),
       },
       price: {
         type: new DataTypes.STRING(),
       },
       productImage: {
-        type: new DataTypes.STRING(),
+        type: new DataTypes.JSONB(),
         allowNull: false,
       },
       cloudinaryImageId: {
-        type: new DataTypes.STRING(),
+        type: new DataTypes.ARRAY(DataTypes.TEXT),
       },
       createdAt: {
         allowNull: false,

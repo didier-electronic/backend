@@ -11,7 +11,7 @@ const router = Router();
 
 router.post(
   "/",
-  upload.single("productImage"),
+  upload.array("productImage[]", 4),
   errorHandlerAsync(ProductController.create)
 );
 
@@ -19,7 +19,7 @@ router.get("/:id", errorHandlerAsync(ProductController.getOne));
 router.get("/", errorHandlerAsync(ProductController.getAll));
 router.put(
   "/:id",
-  upload.single("productImage"),
+  upload.array("productImage[]", 4),
   errorHandlerAsync(ProductController.update)
 );
 

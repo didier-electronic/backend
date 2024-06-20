@@ -20,18 +20,19 @@ export default class ProductController {
    * @return {object} user book information
    */
   static async create(req, res) {
-    const result = await cloudinary.uploader.upload(
-      req?.file?.path,
-      (err, result) => {
-        if (err) {
-          console.log("err", err);
-          return res.status(500).json({
-            success: false,
-            message: "Error",
-          });
-        }
+    console.log("req.file ==>>", req?.files);
+
+    const imageUrls = [];
+    const cloudinaryImageIds = [];
+
+    if (req?.files) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file?.path);
+
+        imageUrls.push(result.secure_url);
+        cloudinaryImageIds.push(result.public_id);
       }
-    );
+    }
 
     // console.log("result ==>>", result);
 
@@ -41,8 +42,8 @@ export default class ProductController {
       title,
       description,
       price,
-      productImage: result.secure_url,
-      cloudinaryImageId: result.public_id,
+      productImage: imageUrls,
+      cloudinaryImageId: cloudinaryImageIds,
     });
 
     return res.status(status.HTTP_CREATED).json({
