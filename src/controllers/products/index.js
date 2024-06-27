@@ -20,8 +20,6 @@ export default class ProductController {
    * @return {object} user book information
    */
   static async create(req, res) {
-    console.log("req.file ==>>", req?.files);
-
     const imageUrls = [];
     const cloudinaryImageIds = [];
 
@@ -33,8 +31,6 @@ export default class ProductController {
         cloudinaryImageIds.push(result.public_id);
       }
     }
-
-    // console.log("result ==>>", result);
 
     const { title, description, price } = req.body;
 
@@ -108,8 +104,11 @@ export default class ProductController {
       where: { id },
     });
 
-    // Delete image from cloudinary
-    await cloudinary.uploader.destroy(fetchProduct.cloudinaryImageId);
+    const cloudinayImageIds = fetchProduct.cloudinaryImageId;
+
+    await cloudinayImageIds.map((imageIds) => {
+      return cloudinary.uploader.destroy(imageIds);
+    });
 
     let result;
 
@@ -155,8 +154,11 @@ export default class ProductController {
       where: { id },
     });
 
-    // Delete image from cloudinary
-    await cloudinary.uploader.destroy(fetchProduct.cloudinaryImageId);
+    const cloudinayImageIds = fetchProduct.cloudinaryImageId;
+
+    await cloudinayImageIds.map((imageIds) => {
+      return cloudinary.uploader.destroy(imageIds);
+    });
 
     // Delete Product from DB
     await Product.destroy({ where: { id } });
